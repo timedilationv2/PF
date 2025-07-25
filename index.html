@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Portfolio</title>
+    <title>Arsalan A. Khan | Portfolio</title>
+    <!-- Google Fonts: Inter for main text, Fira Code for terminal -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS for new section -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* * ==============================================
          * Design System (Inspired by Stripe)
          * ==============================================
-         * Using CSS variables to make customization easy.
-         * You can change these values to quickly re-theme the site.
+         * Using CSS variables for easy theme customization.
         */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f6f9fc;
+            --bg-tertiary: #eff4f9;
+            --bg-terminal: #1e1e1e;
             --text-primary: #30313d;
             --text-secondary: #6b7280;
+            --text-terminal: #dcdcdc;
             --accent-primary: #0570de;
             --accent-primary-hover: #0461c2;
             --border-color: #e6ebf1;
-            --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-family-mono: 'Fira Code', monospace;
             --spacing-unit: 8px;
             --border-radius: 6px;
-            --header-height: 60px;
         }
 
         /* * ==============================================
@@ -34,6 +39,8 @@
         */
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         html {
@@ -44,24 +51,22 @@
             font-family: var(--font-family-sans);
             color: var(--text-primary);
             background-color: var(--bg-primary);
-            margin: 0;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-weight: 600;
+            font-weight: 700;
             margin-top: 0;
             margin-bottom: calc(var(--spacing-unit) * 2);
         }
 
-        h1 { font-size: 2.25rem; }
-        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: var(--spacing-unit); }
+        h1 { font-size: 2.5rem; line-height: 1.2; }
+        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: var(--spacing-unit); margin-bottom: calc(var(--spacing-unit) * 4); }
         h3 { font-size: 1.25rem; }
 
         p {
             line-height: 1.6;
-            margin-top: 0;
             margin-bottom: calc(var(--spacing-unit) * 2);
             color: var(--text-secondary);
         }
@@ -120,8 +125,6 @@
 
         .sidebar nav ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
         }
 
         .nav-category {
@@ -144,10 +147,12 @@
             padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
             border-radius: var(--border-radius);
             transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 500;
         }
 
-        .nav-link a:hover {
-            background-color: #e6ebf1;
+        .nav-link a.active, .nav-link a:hover {
+            background-color: var(--bg-tertiary);
+            color: var(--accent-primary);
             text-decoration: none;
         }
 
@@ -156,16 +161,46 @@
          * ==============================================
         */
         .content-section {
+            padding-top: calc(var(--spacing-unit) * 4); /* For scroll-margin */
             margin-bottom: calc(var(--spacing-unit) * 8);
-        }
-
-        .intro-header {
-            margin-bottom: calc(var(--spacing-unit) * 6);
         }
 
         .intro-header p {
             font-size: 1.125rem;
             max-width: 720px;
+        }
+        
+        /* Quick Links Buttons */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: calc(var(--spacing-unit) * 2);
+            margin-top: calc(var(--spacing-unit) * 4);
+        }
+
+        .quick-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-unit);
+            background-color: var(--accent-primary);
+            color: white;
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        
+        .quick-link-btn:hover {
+            background-color: var(--accent-primary-hover);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .quick-link-btn svg {
+            width: 20px;
+            height: 20px;
         }
 
         /* Project Grid */
@@ -181,6 +216,8 @@
             border-radius: var(--border-radius);
             padding: calc(var(--spacing-unit) * 3);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
@@ -191,6 +228,10 @@
         .project-card h3 {
             margin-bottom: var(--spacing-unit);
         }
+        
+        .project-card p {
+            flex-grow: 1;
+        }
 
         .project-card .tech-stack {
             margin-top: calc(var(--spacing-unit) * 2);
@@ -200,36 +241,64 @@
         }
 
         .tech-tag {
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-tertiary);
             color: var(--text-secondary);
             padding: calc(var(--spacing-unit) * 0.5) var(--spacing-unit);
             border-radius: var(--border-radius);
             font-size: 0.875rem;
             font-weight: 500;
         }
-
-        /* About Section */
-        .about-content {
-            max-width: 720px;
-        }
         
-        /* Contact Form */
-        .contact-form {
-            max-width: 600px;
+        /* NEW: Terminal Box for Skills */
+        .terminal-box {
+            background-color: var(--bg-terminal);
+            color: var(--text-terminal);
+            padding: calc(var(--spacing-unit) * 3);
+            border-radius: var(--border-radius);
+            font-family: var(--font-family-mono);
+            font-size: 0.9rem;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
-        .form-group {
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: calc(var(--spacing-unit) * 2);
             margin-bottom: calc(var(--spacing-unit) * 2);
+            border-bottom: 1px solid #444;
         }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: var(--spacing-unit);
+        .terminal-buttons { display: flex; gap: var(--spacing-unit); }
+        .terminal-buttons span { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-buttons .red { background-color: #ff5f56; }
+        .terminal-buttons .yellow { background-color: #ffbd2e; }
+        .terminal-buttons .green { background-color: #27c93f; }
+        
+        .terminal-body .command {
+            color: #82aaff; /* A blueish color for commands */
         }
+        .terminal-body .command::before {
+            content: '$ ';
+            color: #c3e88d; /* A greenish color for prompt */
+        }
+        .terminal-body .output {
+            padding-left: calc(var(--spacing-unit) * 2);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .terminal-body .output .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background: white;
+            animation: blink 1s steps(1) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .form-group input,
-        .form-group textarea {
+        /* Contact Form */
+        .contact-form { max-width: 600px; }
+        .form-group { margin-bottom: calc(var(--spacing-unit) * 2); }
+        .form-group label { display: block; font-weight: 500; margin-bottom: var(--spacing-unit); }
+        .form-group input, .form-group textarea {
             width: 100%;
             padding: calc(var(--spacing-unit) * 1.5);
             border: 1px solid var(--border-color);
@@ -237,15 +306,13 @@
             font-family: var(--font-family-sans);
             font-size: 1rem;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: var(--bg-primary);
         }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(5, 112, 222, 0.2);
         }
-
         .submit-button {
             background-color: var(--accent-primary);
             color: white;
@@ -257,10 +324,7 @@
             font-weight: 600;
             transition: background-color 0.2s ease;
         }
-
-        .submit-button:hover {
-            background-color: var(--accent-primary-hover);
-        }
+        .submit-button:hover { background-color: var(--accent-primary-hover); }
 
         /* * ==============================================
          * Responsive Design
@@ -268,15 +332,12 @@
         */
         @media (max-width: 1024px) {
             .main-content {
-                padding: calc(var(--spacing-unit) * 4);
+                padding: calc(var(--spacing-unit) * 5) calc(var(--spacing-unit) * 4);
             }
         }
         
         @media (max-width: 768px) {
-            .layout-container {
-                flex-direction: column;
-            }
-
+            .layout-container { flex-direction: column; }
             .sidebar {
                 position: static;
                 width: 100%;
@@ -284,11 +345,11 @@
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
             }
-
             .main-content {
                 margin-left: 0;
                 width: 100%;
             }
+            h1 { font-size: 2rem; }
         }
 
     </style>
@@ -299,24 +360,26 @@
         <!-- ======================= SIDEBAR ======================= -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="#home">Your Name</a>
+                <a href="#home">Arsalan A. Khan</a>
             </div>
             <nav>
                 <div class="nav-category">
-                    <div class="nav-category-title">Portfolio</div>
+                    <div class="nav-category-title">Navigation</div>
                     <ul>
                         <li class="nav-link"><a href="#home">Home</a></li>
                         <li class="nav-link"><a href="#projects">Projects</a></li>
-                        <li class="nav-link"><a href="#about">About Me</a></li>
+                        <li class="nav-link"><a href="#ai-workspaces">AI Workspaces</a></li>
+                        <li class="nav-link"><a href="#skills">Skills</a></li>
+                        <li class="nav-link"><a href="#about">About</a></li>
+                        <li class="nav-link"><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
                 <div class="nav-category">
                     <div class="nav-category-title">Connect</div>
                     <ul>
-                        <li class="nav-link"><a href="#contact">Contact</a></li>
-                        <!-- Add links to your social profiles here -->
-                        <li class="nav-link"><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                        <li class="nav-link"><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                        <li class="nav-link"><a href="https://github.com/timedilationv2" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                        <li class="nav-link"><a href="https://www.linkedin.com/in/arsalan-a-khan/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                        <li class="nav-link"><a href="https://twitter.com/arsalanakhan" target="_blank" rel="noopener noreferrer">Twitter</a></li>
                     </ul>
                 </div>
             </nav>
@@ -328,19 +391,29 @@
             <!-- Home Section -->
             <section id="home" class="content-section">
                 <div class="intro-header">
-                    <h1>Creative Technologist & Developer</h1>
-                    <p>I build elegant, efficient, and user-friendly digital experiences. With a passion for both design and code, I turn complex problems into beautiful, intuitive solutions.</p>
+                    <h1>Dev, Tech Writer & AI Specialist</h1>
+                    <p>I build intelligent, user-centric digital experiences and craft clear, concise technical documentation. With a passion for AI-augmented workflows and full-stack development, I turn complex problems into elegant, high-performance solutions.</p>
+                    <div class="quick-links">
+                        <a href="https://github.com/timedilationv2/samplesite/blob/main/Arsalan_A_Khan_Resume.pdf" target="_blank" class="quick-link-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            View Resume
+                        </a>
+                        <a href="https://github.com/timedilationv2" target="_blank" rel="noopener noreferrer" class="quick-link-btn">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            GitHub
+                        </a>
+                    </div>
                 </div>
             </section>
 
             <!-- Projects Section -->
             <section id="projects" class="content-section">
-                <h2>Projects</h2>
+                <h2>Featured Projects</h2>
                 <div class="project-grid">
                     <!-- Project 1 -->
                     <div class="project-card">
-                        <h3>E-Commerce Platform</h3>
-                        <p>A full-stack e-commerce site with features like product search, a shopping cart, and a secure checkout process powered by Stripe.</p>
+                        <h3>Enterprise E-Commerce Platform</h3>
+                        <p>Engineered a scalable e-commerce solution with real-time inventory management, a streamlined shopping cart, and secure payment processing via the Stripe API.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">React</span>
                             <span class="tech-tag">Node.js</span>
@@ -350,8 +423,8 @@
                     </div>
                     <!-- Project 2 -->
                     <div class="project-card">
-                        <h3>Data Visualization Dashboard</h3>
-                        <p>An interactive dashboard for visualizing real-time analytics, built with D3.js for custom charts and a clean, responsive interface.</p>
+                        <h3>Real-Time Analytics Dashboard</h3>
+                        <p>Developed an interactive dashboard for visualizing complex datasets, featuring custom charts with D3.js and live data updates using Firebase Firestore.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">Vue.js</span>
                             <span class="tech-tag">D3.js</span>
@@ -360,8 +433,8 @@
                     </div>
                     <!-- Project 3 -->
                     <div class="project-card">
-                        <h3>Mobile Task Manager</h3>
-                        <p>A cross-platform mobile app designed to help users organize their daily tasks with a simple, gesture-based UI.</p>
+                        <h3>Agile Project Management Tool</h3>
+                        <p>Built a collaborative, cross-platform application to manage project workflows, tasks, and team communication, leveraging GraphQL for efficient data fetching.</p>
                         <div class="tech-stack">
                             <span class="tech-tag">React Native</span>
                             <span class="tech-tag">GraphQL</span>
@@ -371,20 +444,181 @@
                 </div>
             </section>
 
+            <!-- AI Workspaces Section -->
+            <section id="ai-workspaces" class="content-section">
+                <h2>AI Workspaces & Research</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mb-12">
+                    An exploration into designing and building collaborative digital environments where human creativity is augmented by artificial intelligence. These projects focus on creating seamless, agentic workflows and dynamic interfaces for a new generation of productivity tools.
+                </p>
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- NEW Project Card: CoT Research -->
+                    <div class="flex flex-col bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-gray-900/5 transform hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex-1 p-6 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Chain-of-Thought Prompting</h3>
+                                </div>
+                                <p class="text-sm font-medium text-green-600 mb-2">Technical Writing & Research</p>
+                                <p class="text-gray-600 mb-6">
+                                    A technical deep-dive into Chain-of-Thought (CoT) prompting, a technique to elicit complex reasoning in Large Language Models. This paper explores its mechanisms, performance gains, and emergent nature at scale.
+                                </p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Key Insights:</h4>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>Analysis of Zero-Shot CoT</li>
+                                    <li>Self-Consistency Decoding methods</li>
+                                    <li>Emergent abilities in 100B+ models</li>
+                                    <li>State-of-the-art results on benchmarks</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6 flex gap-3">
+                                <a href="https://github.com/timedilationv2/samplesite/blob/main/Chain-of-Thought%20(CoT)%20Prompting%20in%20Large%20Language%20Models.pdf" target="_blank" class="w-full text-center px-4 py-2 bg-gray-800 text-white rounded-md font-semibold text-sm hover:bg-gray-900 transition-colors">Read Paper</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 1: Sophie AI (Most Polished) -->
+                    <div class="flex flex-col bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-gray-900/5 transform hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex-1 p-6 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Sophie AI</h3>
+                                </div>
+                                <p class="text-sm font-medium text-indigo-600 mb-2">Persona-Driven AI Assistant</p>
+                                <p class="text-gray-600 mb-6">
+                                    A polished, user-centric workspace featuring a persona-driven AI assistant. Sophie AI demonstrates a refined user experience for co-creation tasks like writing, brainstorming, and analysis.
+                                </p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Technical Highlights:</h4>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>Persona-based AI responses</li>
+                                    <li>Real-time collaborative text editing</li>
+                                    <li>Context-aware suggestions</li>
+                                    <li>Modular and extensible UI components</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6 flex gap-3">
+                                <a href="https://github.com/timedilationv2/sophieaiworkspaces" target="_blank" class="w-full text-center px-4 py-2 bg-gray-800 text-white rounded-md font-semibold text-sm hover:bg-gray-900 transition-colors">GitHub</a>
+                                <a href="https://timedilationv2.github.io/sophieaiworkspaces/" target="_blank" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-800 rounded-md font-semibold text-sm hover:bg-gray-200 transition-colors">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2: Nexus AI (The Prototype) -->
+                    <div class="flex flex-col bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-gray-900/5 transform hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex-1 p-6 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Nexus AI Environment</h3>
+                                </div>
+                                <p class="text-sm font-medium text-sky-600 mb-2">Prototype Workspace Environment</p>
+                                <p class="text-gray-600 mb-6">
+                                    A proof-of-concept collaborative workspace demonstrating how AI agents can assist with code generation, data analysis, and creative writing in a shared, interactive environment.
+                                </p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Technical Highlights:</h4>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>Built on the Interactak framework</li>
+                                    <li>State management for AI memory</li>
+                                    <li>Real-time UI updates via WebSockets</li>
+                                    <li>Proof-of-concept for agentic workflows</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6 flex gap-3">
+                                <a href="https://github.com/timedilationv2/workspacesaitest" target="_blank" class="w-full text-center px-4 py-2 bg-gray-800 text-white rounded-md font-semibold text-sm hover:bg-gray-900 transition-colors">GitHub</a>
+                                <a href="https://timedilationv2.github.io/workspacesaitest/" target="_blank" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-800 rounded-md font-semibold text-sm hover:bg-gray-200 transition-colors">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3: Interactak (The Framework) -->
+                    <div class="flex flex-col bg-white rounded-xl shadow-lg overflow-hidden ring-1 ring-gray-900/5 transform hover:scale-[1.02] transition-transform duration-300">
+                        <div class="flex-1 p-6 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h6l2-2h2l-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900">Interactak</h3>
+                                </div>
+                                <p class="text-sm font-medium text-orange-600 mb-2">Core Interaction Framework</p>
+                                <p class="text-gray-600 mb-6">
+                                    A foundational framework for building dynamic, real-time interfaces for human-AI collaboration. It provides the core components for creating sophisticated, agentic user experiences.
+                                </p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Technical Highlights:</h4>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>Manages state and user input</li>
+                                    <li>Renders interactive AI-driven content</li>
+                                    <li>Enables rapid prototyping of AI tools</li>
+                                    <li>Lightweight and dependency-free</li>
+                                </ul>
+                            </div>
+                            <div class="mt-6 flex gap-3">
+                                <a href="https://github.com/timedilationv2/interactak" target="_blank" class="w-full text-center px-4 py-2 bg-gray-800 text-white rounded-md font-semibold text-sm hover:bg-gray-900 transition-colors">GitHub</a>
+                                <a href="https://timedilationv2.github.io/interactak/" target="_blank" class="w-full text-center px-4 py-2 bg-gray-100 text-gray-800 rounded-md font-semibold text-sm hover:bg-gray-200 transition-colors">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Skills Section -->
+            <section id="skills" class="content-section">
+                <h2>Skills & Toolkit</h2>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="red"></span><span class="yellow"></span><span class="green"></span>
+                        </div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="command">./get-skills.sh</div>
+                        <div class="output">
+<pre>
+<strong>Languages:</strong>   JavaScript (ES6+), TypeScript, HTML5, CSS3, Python, SQL
+<strong>Front-End:</strong>   React, Vue.js, Next.js, Redux, Tailwind CSS, D3.js
+<strong>Back-End:</strong>    Node.js, Express, Django, PostgreSQL, MongoDB, Firebase
+<strong>AI/ML:</strong>       Prompt Engineering, RAG, Fine-Tuning, LangChain, LLMs
+<strong>Tools:</strong>       Git, Docker, Webpack, Babel, Jest, Jenkins, AWS
+<strong>Practices:</strong>   Agile/Scrum, CI/CD, TDD, RESTful APIs, Microservices
+</pre>
+                        <span class="cursor"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- About Section -->
             <section id="about" class="content-section">
                 <h2>About Me</h2>
                 <div class="about-content">
-                    <p>Hello! I'm [Your Name], a developer with over [X] years of experience in the tech industry. My journey in software development began with a fascination for how things work, which quickly evolved into a career dedicated to building high-quality applications.</p>
-                    <p>I specialize in front-end development with expertise in JavaScript frameworks like React and Vue, but I'm also comfortable working on the back-end with Node.js and various databases. I believe in writing clean, maintainable code and am a strong advocate for testing and continuous improvement.</p>
-                    <p>When I'm not coding, you can find me exploring hiking trails, experimenting with new recipes, or contributing to open-source projects.</p>
+                    <p>As a Dev and Tech Writer, my professional journey is rooted in a deep-seated passion for problem-solving, system architecture, and clear communication. This has driven me to focus on developing high-quality, efficient software and creating documentation that empowers users and developers alike.</p>
+                    <p>My core expertise lies in full-stack development and the rapidly evolving field of AI. I have a strong command of modern JavaScript frameworks and a keen interest in leveraging Large Language Models (LLMs) to build intelligent applications. I am a proponent of advanced techniques like Chain-of-Thought prompting to unlock novel AI capabilities.</p>
+                    <p>I am committed to best practices, including comprehensive testing, clean code principles, and continuous integration, to ensure the delivery of robust and reliable products. I actively engage with the open-source community to stay at the forefront of technological advancements and contribute to innovative projects.</p>
                 </div>
             </section>
 
             <!-- Contact Section -->
             <section id="contact" class="content-section">
                 <h2>Get In Touch</h2>
-                <p>I'm always open to discussing new projects or opportunities. Feel free to send me a message.</p>
+                <p>I am currently available for new opportunities and collaborations. Please feel free to send a message to discuss your project or role.</p>
+                <!-- NOTE: To make this form work, you need a backend endpoint or a service like Formspree. -->
                 <form class="contact-form" action="#" method="POST">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -404,7 +638,30 @@
 
         </main>
     </div>
+    <script>
+        // Simple script to add 'active' class to nav link on scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.sidebar .nav-link a');
 
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
 
