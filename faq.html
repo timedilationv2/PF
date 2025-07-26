@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avionics Inspection - FAQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+        }
+        .accordion-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+        .accordion-toggle.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-stone-100">
+
+    <div class="container mx-auto max-w-3xl py-8 px-4 sm:py-12 sm:px-6">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Avionics Inspection FAQ</h1>
+            <p class="mt-2 text-lg text-slate-600">Quick answers to common questions about the CBJ800 "Pegasus" prototype inspection.</p>
+        </header>
+
+        <div class="mb-6">
+            <input type="text" id="faq-search" placeholder="Search FAQs..." class="w-full p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none">
+        </div>
+        <div class="flex justify-end space-x-2 mb-4">
+            <button id="expand-all" class="text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Expand All</button>
+            <button id="collapse-all" class="text-sm bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-lg">Collapse All</button>
+        </div>
+
+        <main id="faq-accordion" class="space-y-4">
+            <!-- FAQ items will be injected here by JavaScript -->
+        </main>
+        
+        <div id="no-results" class="text-center py-8 text-slate-500 hidden">
+            <p>No matching FAQs found.</p>
+        </div>
+
+        <footer class="text-center mt-12 text-sm text-slate-500">
+            <p>Source: Technical Inspection Report, CBJ800XX by Arsalan Khan.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqData = [
+                { q: "What was the purpose of this inspection?", a: "To assess the integration and functionality of the CBJ800 prototype's avionics suite, verify installation quality, and support the aircraft's eventual type certification process." },
+                { q: "Were any critical failures found?", a: "No. The inspection detected no critical failures or system faults. The avionics suite demonstrates foundational readiness for the next testing phases." },
+                { q: "What were the main issues identified?", a: "The main issues were 5 minor deficiencies, including EMI leakage at the SATCOM stub, under-secured wiring bundles, excess heat on one MFD, and a non-compliant label. All are considered correctable." },
+                { q: "What is the biggest risk identified from the inspection?", a: "The localized EMI (Electromagnetic Interference) leakage near the SATCOM interface is the most significant risk noted. While minor, it exceeds recommended thresholds and must be mitigated with proper shielding before integrated flight tests can proceed." },
+                { q: "Is the aircraft ready for flight testing?", a: "The aircraft is conditionally approved to transition to ground, taxi, and initial avionics-related airborne tests. This approval is pending the resolution of the minor corrective actions identified in the report." },
+                { q: "What are the immediate next steps for the engineering team?", a: "The immediate recommendations are to apply EMI shielding to the SATCOM stub, secure loose wiring bundles, evaluate cooling solutions for the overheating MFD, standardize all equipment labels, and install the full HF communication system for complete operational testing." },
+                { q: "Which regulatory standards were considered during the review?", a: "The inspection reviewed the systems against CAAC Part 25, FAA 14 CFR Part 25, EASA CS-25, and various RTCA standards like DO-160G (Environmental) and DO-178C (Software)." },
+                { q: "What was the status of the Flight Management System (FMS) software?", a: "The Rockwell Collins FMS-3000 (v3.5.1.3) was installed. Basic flight plan logic and route simulations worked correctly, but it was awaiting full integration with the autopilot for closed-loop control." },
+                { q: "Were there any issues with the wiring or electrical installation?", a: "The installation quality was generally high, adhering to AVIC standards. Minor issues included a few under-secured harness bundles, some outdated color-coded tags, and an incomplete shield termination on a SATCOM cable." },
+                { q: "What was the conclusion on the aircraft's software integrity?", a: "Software integrity was validated. All installed versions matched factory baselines, and fault logs showed a healthy system with no critical or persistent errors. Version control was well-documented and secure." }
+            ];
+
+            const accordionContainer = document.getElementById('faq-accordion');
+            const searchInput = document.getElementById('faq-search');
+            const expandAllBtn = document.getElementById('expand-all');
+            const collapseAllBtn = document.getElementById('collapse-all');
+            const noResultsMsg = document.getElementById('no-results');
+
+            const renderFaqs = (data) => {
+                accordionContainer.innerHTML = '';
+                data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.classList.add('bg-white', 'rounded-lg', 'shadow-md', 'overflow-hidden', 'faq-item');
+                    div.innerHTML = `
+                        <button class="accordion-toggle w-full text-left p-5 flex justify-between items-center hover:bg-stone-50 focus:outline-none">
+                            <span class="font-semibold text-lg text-slate-800">${item.q}</span>
+                            <svg class="accordion-icon w-6 h-6 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content hidden px-6 pb-5">
+                            <p class="text-slate-700 leading-relaxed">${item.a}</p>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(div);
+                });
+
+                document.querySelectorAll('.accordion-toggle').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const content = button.nextElementSibling;
+                        button.classList.toggle('open');
+                        content.classList.toggle('hidden');
+                    });
+                });
+            };
+            
+            renderFaqs(faqData);
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const faqItems = document.querySelectorAll('.faq-item');
+                let resultsFound = false;
+
+                faqItems.forEach(item => {
+                    const question = item.querySelector('span').textContent.toLowerCase();
+                    const answer = item.querySelector('p').textContent.toLowerCase();
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        resultsFound = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                noResultsMsg.classList.toggle('hidden', resultsFound);
+            });
+
+            expandAllBtn.addEventListener('click', () => {
+                document.querySelectorAll('.accordion-toggle').forEach(button => {
+                    button.classList.add('open');
+                    button.nextElementSibling.classList.remove('hidden');
+                });
+            });
+
+            collapseAllBtn.addEventListener('click', () => {
+                document.querySelectorAll('.accordion-toggle').forEach(button => {
+                    button.classList.remove('open');
+                    button.nextElementSibling.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
